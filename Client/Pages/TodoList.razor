@@ -1,0 +1,64 @@
+@page "/todolist"
+
+
+<Table>
+     <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <Addons>
+                <div class="input-group mb-2">
+                    <TextEdit class="form-control" Placeholder="Adicione o nome" @bind-Text="newTodo" />
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <Check TValue="bool" @bind-Checked="@checkList">Já fiz</Check>
+                        </div>
+                        <Button Color="Color.Success" @onclick="AddTask">Adicionar</Button>
+                    </div>                
+                </div>
+            </Addons>
+        </TableRow>
+         
+    </TableHeader>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell class="text-center" >Check</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @foreach (var item in listaTodo)
+        {
+            <TableRow>
+                <TableRowCell>@item.Title </TableRowCell>    
+                <TableRowCell class="text-center"><Check TValue="bool" Checked="@item.Done"></Check> </TableRowCell>    
+            </TableRow>
+        }
+    </TableBody>
+</Table>
+
+
+@code{
+
+    List<Todo2> listaTodo;
+    public bool check { get; set; }
+    public bool checkList { get; set; }
+    public string newTodo { get; set; }
+
+    private void AddTask()
+    {
+        listaTodo.Add(new Todo2() { Title = newTodo, Done = checkList });
+    }
+
+
+    protected override void OnInitialized()
+    {
+
+        listaTodo = new List<Todo2>(){
+
+    new Todo2(){Title = "Passer com o cachorro", Done = false},
+    new Todo2(){Title = "Comprar leite", Done=false},
+    new Todo2(){Title = "Estudar programação", Done = true}
+    };
+
+    }
+
+}
